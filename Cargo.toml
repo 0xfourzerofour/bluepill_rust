@@ -1,0 +1,41 @@
+[package]
+name = "bluepill_blinky"
+categories = ["embedded", "no-std"]
+authors = ["arrowcircle", "Emil Fresk <emil.fresk@gmail.com>"]
+description = "Example blinky for BluePill"
+keywords = ["arm", "cortex-m"]
+license = "MIT OR Apache-2.0"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+embedded-hal = "1.0.0"
+rtic = { version = "2.1.1", features = [ "thumbv7-backend" ] }
+panic-rtt-target = { version = "0.1.2", features = ["cortex-m"] }
+rtt-target = { version = "0.3.1", features = ["cortex-m"] }
+systick-monotonic = "1.0.0"
+cortex-m = "0.7.4"
+cortex-m-rt = "0.7.1"
+
+
+[dependencies.stm32f1xx-hal]
+version = "0.10.0"
+features = ["rt", "stm32f103", "medium"]
+
+# this lets you use `cargo fix`!
+[[bin]]
+name = "bluepill_blinky"
+test = false
+bench = false
+
+[profile.dev]
+opt-level = 1
+codegen-units = 16
+debug = true
+lto = false
+
+[profile.release]
+opt-level = "s"   # optimize for size
+codegen-units = 1 # better optimizations
+debug = true      # symbols are nice and they don't increase the size on Flash
+lto = true        # better optimizations
